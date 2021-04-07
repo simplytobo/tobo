@@ -5,7 +5,37 @@ html, body {
 }
 
 
+#launch-screen{
+	display: flex;
+    flex-direction: column;
+	height: 100%;
+    width: 100%;
+}
+.launch-card-layout{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 100%;
+ 
+  bottom: 0;
+
+	
+}
+#launch-card{
+  margin: 1em;
+  padding: 1em;
+  background: white;
+  border-radius: 25px;
+}
 .map {
+	
   height: 100%;
   width: 100%;
+	
+	
 }
+
+.fas{
+	color: #605DF2;
+}
+
