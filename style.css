@@ -3,6 +3,9 @@ html, body {
   margin: 0;
   height: 100%;
 }
+.btn{
+	background-color: #605DF2;
+}
 
 
 #launch-screen{
@@ -16,14 +19,14 @@ html, body {
   flex-direction: column;
   position: absolute;
   width: 100%;
- 
+  
   bottom: 0;
 
 	
 }
 #launch-card{
   margin: 1em;
-  padding: 1em;
+  padding: 1.5em;
   background: white;
   border-radius: 25px;
 }
@@ -34,6 +37,7 @@ html, body {
 	
 	
 }
+
 
 .fas{
 	color: #605DF2;
