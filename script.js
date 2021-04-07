@@ -1,7 +1,7 @@
 
 
-var x = document.getElementById("");
-
+var x = document.getElementById("launc");
+var CurLocation = document.getElementById('exampleInputPassword1');
 getLocation();
 
 
@@ -15,13 +15,14 @@ var marker = new ol.Overlay({
 	});
 	
 var view = new ol.View({
-    center: ol.proj.fromLonLat([userLongitude, userLatitude]),
+    center: ol.proj.fromLonLat([userLongitude+0.001, userLatitude-0.003]),
     zoom: 15
   
 })
 	
 var map = new ol.Map({
   target: 'map',
+  controls: [],
   layers: [
     new ol.layer.Tile({
       source: new ol.source.OSM()
@@ -30,24 +31,19 @@ var map = new ol.Map({
   view: view
 });
 
-// var layer = new ol.layer.Vector({
-  // source: new ol.source.Vector({
-    // features: [
-        // new ol.Feature({
-            // geometry: new ol.geom.Point(ol.proj.fromLonLat([userLongitude,userLatitude]))
 
-        // })
-    // ]
-  // })
- // });
- //map.addLayer(layer);
- console.log(userLongitude);
-  console.log(userLatitude);
-  
+
  map.addOverlay(marker);
 
 
+  
+
+
+
 }
+
+
+
 
 function getLocation() {
   if (navigator.geolocation) {
@@ -60,11 +56,33 @@ function getLocation() {
 function showPosition(position) {
   userLatitude = position.coords.latitude;
   userLongitude = position.coords.longitude;
-
+  
+  userLatitude = toFixedIfNecessary( userLatitude, 6 );
+  userLongitude = toFixedIfNecessary( userLongitude, 6 );
+  userLatitude = parseFloat(userLatitude);
+  userLongitude = parseFloat(userLongitude);
+  // console.log(userLatitude),
+  // console.log(userLongitude);
+  
   loadMap();
+  simpleReverseGeocoding();
   
    
 }
+function toFixedIfNecessary( value, dp ){
+  return +parseFloat(value).toFixed( dp );
+}
+
+function simpleReverseGeocoding() {
+
+	fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + userLongitude + '&lat=' + userLatitude).then(function(response) {
+	  return response.json();
+	}).then(function(json) {
+		console.log(json.error);
+	  CurLocation.value = json.address.road +" " + json.address.house_number+ ", "+json.address.municipality +", " +json.address.county;
+	  console.log(json);
+	})
+}
 
 
- 
+
