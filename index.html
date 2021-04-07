@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Tobo</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">    
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
 	<script src="https://kit.fontawesome.com/ac53754ed5.js" crossorigin="anonymous"></script>
@@ -13,23 +14,24 @@
   <body>
 	<div id="launch-screen">
 		<div id="map" class="map"></div>
-		<div class="launch-card-layout ">
+		<div class="launch-card-layout">
 			<div id="launch-card">
-				<div class="container-sm " >
+				<div class="" >
 				  <div class="mb-3">
-					<label for="exampleInputEmail1" class="form-label">Email address</label>
-					<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-					<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+					<label for="inputDestination" class="form-label">Destination</label>
+					<input type="text" class="form-control" id="inputDestination" aria-describedby="destinationHelp">
+					<div id="destinationHelp" class="form-text">Input your destination above</div>
 				  </div>
 				  <div class="mb-3">
-					<label for="exampleInputPassword1" class="form-label">Password</label>
-					<input type="password" class="form-control" id="exampleInputPassword1">
+					<label for="exampleInputPassword1" class="form-label ">Current Location</label>
+					<input type="text" class="form-control" id="exampleInputPassword1">
+					<div id="CurLocationHelp" class="form-text">Input your current location above</div>
 				  </div>
-				  <div class="mb-3 form-check">
-					<input type="checkbox" class="form-check-input" id="exampleCheck1">
-					<label class="form-check-label" for="exampleCheck1">Check me out</label>
+				  <div class=" d-flex justify-content-center mb-2 ">
+			
+					<button type="submit" class="btn btn-primary btn-lg" >Search</button>
 				  </div>
-				  <button type="submit" class="btn btn-primary">Submit</button>
+				  
 				</div>				
 			</div>
 		
