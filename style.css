@@ -6,8 +6,22 @@ html, body {
 .btn{
 	background-color: #605DF2;
 }
-
-
+input:focus + select, select:focus {
+  display: block;
+}
+select {
+  display: flex;
+  padding: 0.5em;
+  border: 1px solid silver;
+  border-radius: 0.2em;
+  box-sizing: border-box;
+  
+  
+  position: absolute;
+}
+option{
+  padding: 0.2em;
+}
 #launch-screen{
 	display: flex;
     flex-direction: column;
@@ -29,6 +43,9 @@ html, body {
   padding: 1.5em;
   background: white;
   border-radius: 25px;
+}
+select{
+	display: none;
 }
 .map {
 	
