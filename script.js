@@ -1,11 +1,23 @@
 
- var lengthMemory = 0;
-var x = document.getElementById("launc");
+var lengthMemory = 0;
+var timeMemory = 0;
+//autocomplete dropbox input speed
+var autoCompleteSpeed = 3000;
+var launchScreen = document.getElementById("launch-screen");
+var taxiScreen = document.getElementById("taxi-screen");
 var CurLocation = document.getElementById('InputLocation');
-var AutocompleteDest = document.getElementById('AutocompleteDatalist')
-var inputDestination = document.getElementById('inputDestination')
+var CurLocation2 = document.getElementById('InputLocation2');
+var AutocompleteDest = document.getElementById('AutocompleteDatalist');
+var inputDestination = document.getElementById('inputDestination');
+var inputDestination2 = document.getElementById('inputDestination2')
+var routeDistance = document.getElementById('routeDistance')
+var routeTime = document.getElementById('routeTime')
 var addDestmark = false;
 getLocation();
+//taxis
+
+var boltBasic = document.getElementById('boltBasic');
+var uber = document.getElementById('uber');
 
 inputDestination.addEventListener('input', AutoComplete);
 AutocompleteDest.addEventListener('change', function() {inputDestination.value= this.value;});
@@ -131,17 +143,20 @@ function simpleReverseGeocoding() {
 	
 	})
 }
-//Adds locations to dropdown menu
+//Adds locations to dropdown menu with id so that when user later clicks i know which one he/she clicked
 function change(apiAddresses) {
-  
+
+ 
   var options= [],
+  
   words= inputDestination.value.toLowerCase().trim().split(' '),
   match,
   s= '';
   
   for (i = 0; i<  apiAddresses.length;i++){ 
-    options.push(apiAddresses[i].name);
-    console.log(options);
+    options.push(apiAddresses[i].name)
+
+    //console.log(options);
 
   }
 
@@ -171,17 +186,22 @@ function change(apiAddresses) {
   AutocompleteDest.size= AutocompleteDest.options.length;
 }
 
+
 function AutoComplete() {
 
   var length = inputDestination.value.length;
-  var lengthMemory;
-  if((length == 3 || length== 5 || length > 6) && length != lengthMemory){
+  
+  var curDate = new Date();
+  var curTime = curDate.getTime();
+
+  if(curTime > timeMemory + autoCompleteSpeed && length != lengthMemory && length > 2){
     lengthMemory =length;
+    timeMemory = curTime;
     //used to check for duplicates; only name!
     var optionsArray = [];
 
     //used to get user inputed destination; 
-    var aCompleteObjectInfo = [];
+    aCompleteObjectInfo = [];
     
     AutocompleteDest.innerHTML= "";
     
@@ -194,17 +214,17 @@ function AutoComplete() {
       if(json.error){
         console.log(json.error);
       }
-      console.log(json.features[0].geometry.coordinates[1]);
-      console.log(json.features[0].geometry.coordinates[0]);
-      console.log(json.features);
+      //console.log(json.features[0].geometry.coordinates[1]);
+      //console.log(json.features[0].geometry.coordinates[0]);
+      //console.log(json.features);
      
       //loops through json addresses and adds them to html select 
       for (i = 0; i<  json.features.length;i++){
         addressName = json.features[i].properties.name.replace(/\s+/g, '').toLowerCase();
         //check for duplicates
         if(optionsArray.includes(addressName) === false){
-          console.log(optionsArray);
-          console.log(addressName);
+          //console.log(optionsArray);
+          //console.log(addressName);
           optionsArray.push(addressName);
           //if no duplicates push 
           aCompleteObjectInfo.push({
@@ -227,8 +247,8 @@ function AutoComplete() {
         if (opts[i].value === val) {
           // An item was selected from the list!
           // yourCallbackHere()
-          console.log("user clicked datalist + name "+ aCompleteObjectInfo[i].name);
-          console.log("user clicked datalist "+ opts[i].value);
+          //console.log("user clicked datalist + name "+ aCompleteObjectInfo[i].name);
+          //console.log("user clicked datalist "+ opts[i].value);
           addDestmark = true;
           var destLat = aCompleteObjectInfo[i].latitude;
           var destLong = aCompleteObjectInfo[i].longitude;
@@ -249,8 +269,71 @@ function AutoComplete() {
     
   }
 }
+function showTaxiScreen(){
+  taxiScreen.style.display = "flex";
+  launchScreen.style.display = "none";
+  CurLocation2.value = CurLocation.value;
+  inputDestination2.value = inputDestination.value;
+  direction();
+}
+function showLaunchScreen(){
+  taxiScreen.style.display = "none";
+  launchScreen.style.display = "flex";
+}
+
+//calculates distance between two points
+function direction(){
+  var destination = inputDestination.value;
+  var match = false;
+  for (i = 0; i<  aCompleteObjectInfo.length;i++){
+    //console.log("object "+ aCompleteObjectInfo[i].name);
+    //console.log("destination "+ destination);
+    if(aCompleteObjectInfo[i].name == destination && match == false){
+      //console.log("longitude " + aCompleteObjectInfo[i].longitude);
+      //console.log("latidude " + aCompleteObjectInfo[i].latitude);
+      DestinationLongitude = aCompleteObjectInfo[i].longitude;
+      DestinationLatidude = aCompleteObjectInfo[i].latitude;
+
+      match = true
+    }
+    console.log("didnt match"); 
+  }
+  fetch("https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248bafc4bdb37d4482c8604ac2d495e8cbc&start="+userLongitude +","+
+   userLatitude+"&end="+DestinationLongitude+","+DestinationLatidude).then(function(response) {
+      return response.json();
+    }).then(function(json) {
+      // if(json.error){
+      //   console.log(json.error);
+      // }
+      console.log(json);
+      console.log("Distance " +Math.round((json.features[0].properties.summary.distance)/ 100)/10);
+      console.log("Time: "+ Math.round((json.features[0].properties.summary.duration)/ 60));
+
+      routeDistance.innerHTML = "";
+      var routeInKm = Math.round((json.features[0].properties.summary.distance)/ 100)/10
+      var distanceDiv = document.createElement("h6");
+      distanceDiv.innerHTML = routeInKm + " km";
+      
+      routeDistance.appendChild(distanceDiv);
+
+      routeTime.innerHTML = "";
+      var routeInMinute = Math.round((json.features[0].properties.summary.duration)/ 60);
+      var timeDiv = document.createElement("h6");
+      timeDiv.innerHTML = routeInMinute +" min";
+      routeTime.appendChild(timeDiv);
+
+      boltBasic.innerHTML = "estimated price: " + (1+calcFare(0.10,0.35,routeInKm, routeInMinute)) + "€";
+      uber.innerHTML = "estimated price: " + (1.2+calcFare(0.11,0.40,routeInKm, routeInMinute)) + "€";
+
+      
 
 
 
 
+  })
+}
+function calcFare(minuteFare, distanceFare, routeInKm,routeInMinute){
+  price = Math.round((minuteFare*routeInMinute*10))/10+ Math.round((distanceFare*routeInKm*10)/10);
+  return price;
+}
 
