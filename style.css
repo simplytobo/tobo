@@ -22,6 +22,56 @@ select {
 option{
   padding: 0.2em;
 }
+/* Taxi screen styling below */
+#taxi-screen{
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+#close-button{
+  position: absolute;
+  right: 1em;
+  top: 1em; 
+  color: red;
+}
+#routeData{
+  padding: 1em;
+  height: 40%;
+  width: 100%;
+  background-color: gainsboro;
+}
+
+#options-header{
+  
+  height: 3em;
+  width: 100%;
+  background-color: gainsboro;
+  margin: 0;
+
+
+}
+
+
+#taxi-options{
+  overflow: auto;
+  height: 50%;
+  width: 100%;
+  background-color: white;
+  padding-top: 2em;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+#taxi-options-sub{
+  margin-right: 2em;
+}
+#taxiCompIcon{
+  height: 3em;
+  width: 3em;
+}
+/* Launch screen styling below */
 #launch-screen{
 	display: flex;
     flex-direction: column;
@@ -47,12 +97,9 @@ option{
 select{
 	display: none;
 }
-.map {
-	
+.map {	
   height: 100%;
-  width: 100%;
-	
-	
+  width: 100%;	
 }
 
 
@@ -60,3 +107,15 @@ select{
 	color: #605DF2;
 }
 
+#menu-button{
+  position: absolute;
+  left: 1em;
+  top: 1em;
+}
+
+#menu-button2{
+ color: white;
+}
+#menu-icon{
+  color:white;
+}
