@@ -14,25 +14,31 @@
   <body>
 	<div id="launch-screen">
 		<div id="map" class="map"></div>
+		<div id="menu-button">
+			<button id="menu-button2" class="btn" type="button" data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample">
+				<i id="menu-icon" class="fas fa-bars"></i>
+			</button>
+		</div>
+
 		<div class="launch-card-layout">
 			<div id="launch-card">
 				<div class="" >
-				  <div class="mb-3">
-					<label for="inputDestination" class="form-label" >Destination</label>
-					<input type="text" class="form-select" for="AutocompleteDatalist" id="inputDestination" autocomplete="off" placeholder="Type to search..." aria-describedby="destinationHelp">
-						<select id="AutocompleteDatalist">
-							<option >Input atleast 3 letters</option>
-						</select>
-					<div id="destinationHelp" class="form-text">Input your destination above</div>
+					<div class="mb-3">
+						<label for="inputDestination" class="form-label" >Destination</label>
+						<input type="text" class="form-control" for="AutocompleteDatalist" id="inputDestination" autocomplete="off" placeholder="Type to search..." aria-describedby="destinationHelp">
+							<select id="AutocompleteDatalist">
+								<option >Input atleast 3 letters</option>
+							</select>
+						<div id="destinationHelp" class="form-text">Input your destination above</div>
 					</div>
-				  <div class="mb-3">
-					<label for="InputLocation" class="form-label ">Current Location</label>
-					<input type="text" class="form-control" id="InputLocation">
-					<div id="CurLocationHelp" class="form-text">Input your current location above</div>
-				  </div>
-				  <div class=" d-flex justify-content-center mb-2 ">
+					<div class="mb-3">
+						<label for="InputLocation" class="form-label ">Current Location</label>
+						<input type="text" class="form-control" id="InputLocation" placeholder="Loading.....">
+						<div id="CurLocationHelp" class="form-text">Input your current location above</div>
+					</div>
+					<div class=" d-flex justify-content-center mb-2 ">
 			
-					<button type="submit" class="btn btn-primary btn-lg" >Search</button>
+					<button type="submit" class="btn btn-primary btn-lg" onclick="showTaxiScreen();">Search</button>
 				  </div>
 				  
 				</div>				
@@ -40,9 +46,139 @@
 		
 		</div>
 		<div id="location" class="marker">
-			<span<i class="fas fa-map-marker-alt fa-3x">
-		</i></div>
-	<div>
+			<i class="fas fa-map-marker-alt fa-3x"></i>
+		</div>
+	</div>
+	<div id="taxi-screen" >	
+
+		<button id="close-button" onclick="showLaunchScreen();" type="button" class="btn-close" aria-label="Close"></button>
+		<div id="routeData" >
+			<div class="d-flex flex-column mb-3">
+				<div class="p-2">
+					<label for="InputLocation2" class="form-label ">Current Location</label>
+					<input type="text" class="form-control" placeholder="Error"  id="InputLocation2">
+					<div id="CurLocationHelp" class="form-text">Your current location</div>
+				</div>
+				<div class="p-2">
+					<label for="inputDestination2" class="form-label" >Destination</label>
+					<input type="text" class="form-control"  id="inputDestination2" autocomplete="off" placeholder="Error" aria-describedby="destinationHelp2">
+					<div id="destinationHelp2" class="form-text">Your destination</div>
+				</div>
+			</div>
+			<div id="routeTimeDistance" class="row g-2 justify-content-evenly">
+				<div class="col-4 text-center align-middle">
+				  <div id="routeDistance" class="p-2 border bg-light ">Error</div>
+				</div>
+				<div class="col-4 text-center align-middle">
+				  <div id="routeTime" class="p-2 border bg-light">Error</div>
+				</div>
+			</div>				
+		</div>
+		<div id="options-header">
+			<div id="cheapestClosest" class="d-flex flex-row justify-content-evenly ">
+				<button type="button" class="btn btn-primary col-4" data-bs-toggle="modal" data-bs-target="#exampleModal">Cheapest</button>
+				<button type="button" class="btn btn-primary col-4" data-bs-toggle="modal" data-bs-target="#exampleModal" > Closest </button>
+			</div>
+		</div>
+		<div id="taxi-options" >
+			<div class="d-flex flex-column">
+
+				<div id="taxi-options-sub" class="row g-2 justify-content-center">
+
+					<div class="input-group">
+						<div class="input-group-text" id="btnGroupAddon"><img src="https://media-exp1.licdn.com/dms/image/C4D0BAQH2KZuyvpoR8g/company-logo_200_200/0/1592301099951?e=2159024400&v=beta&t=DNiIlsLpDVPZrTnbM_pGGCykly5raubI4EDciT6AFBg" 
+							id="taxiCompIcon" class="rounded float-start" alt="Bolt"></div>
+						<div type="text" class="form-control" aria-describedby="btnGroupAddon"><p>Bolt Basic</p><p id="boltBasic" class="blockquote-footer">estimated price: 5€</p></div>
+					</div>
+					<div class="input-group">
+						<div class="input-group-text" id="btnGroupAddon"><img src="https://is4-ssl.mzstatic.com/image/thumb/Purple113/v4/d3/14/dd/d314dd9e-0f1b-c72d-9d72-044fa95f8b1b/source/200x200bb.jpg" 
+							id="taxiCompIcon" class="rounded float-start" alt="Uber"></div>
+						<div type="text" class="form-control" aria-describedby="btnGroupAddon"> <p>Uber</p><p id="uber" class="blockquote-footer">estimated price: 6€</p></div>
+					</div>
+					<div class="input-group">
+						<div class="input-group-text" id="btnGroupAddon"><img src="https://taxi.yandex.lv/social-icon.png" 
+							id="taxiCompIcon" class="rounded float-start" alt="Yandex"></div>
+						<div type="text" class="form-control" aria-describedby="btnGroupAddon"><p>Yandex taxi</p><p class="blockquote-footer">estimated price: None</p></div>
+					</div>
+					<div class="input-group">
+						<div class="input-group-text" id="btnGroupAddon"><img src="https://www.kool24.ee/static/images/large/d/6/2/d624439326f18b024922138c239cadbb0026d934/1d2d93438307d947b9583b5dc71e25bf.jpg" 
+							id="taxiCompIcon" class="rounded float-start" alt="Tallinnk"></div>
+						<div type="text" class="form-control" aria-describedby="btnGroupAddon"><p>Tallinnk taxi</p><p class="blockquote-footer">estimated price: None</p></div>
+					</div>
+					<div class="input-group">
+						<div class="input-group-text" id="btnGroupAddon"><img src="https://static.thenounproject.com/png/762494-200.png" 
+							id="taxiCompIcon" class="rounded float-start" alt="small taxi"></div>
+						<div type="text" class="form-control" aria-describedby="btnGroupAddon"><p>Small taxi</p><p class="blockquote-footer">estimated price: None</p></div>
+					</div>
+					<div class="input-group">
+						<div class="input-group-text" id="btnGroupAddon"><img src="https://static.thenounproject.com/png/762494-200.png" 
+							id="taxiCompIcon" class="rounded float-start" alt="small taxi"></div>
+						<div type="text" class="form-control" aria-describedby="btnGroupAddon"><p>Small taxi</p><p class="blockquote-footer">estimated price: None</p></div>
+					</div>
+					<div class="input-group">
+						<div class="input-group-text" id="btnGroupAddon"><img src="https://static.thenounproject.com/png/762494-200.png" 
+							id="taxiCompIcon" class="rounded float-start" alt="small taxi"></div>
+						<div type="text" class="form-control" aria-describedby="btnGroupAddon"><p>Small taxi</p><p class="blockquote-footer">estimated price: None</p></div>
+					</div>
+					<div class="input-group">
+						<div class="input-group-text" id="btnGroupAddon"><img src="https://static.thenounproject.com/png/762494-200.png" 
+							id="taxiCompIcon" class="rounded float-start" alt="small taxi"></div>
+						<div type="text" class="form-control" aria-describedby="btnGroupAddon"><p>Small taxi</p><p class="blockquote-footer">estimated price: None</p></div>
+					</div>
+					<div class="input-group">
+						<div class="input-group-text" id="btnGroupAddon"><img src="https://static.thenounproject.com/png/762494-200.png" 
+							id="taxiCompIcon" class="rounded float-start" alt="small taxi"></div>
+						<div type="text" class="form-control" aria-describedby="btnGroupAddon"><p>Small taxi</p><p class="blockquote-footer">estimated price: None</p></div>
+					</div>
+					<div class="input-group">
+						<div class="input-group-text" id="btnGroupAddon"><img src="https://static.thenounproject.com/png/762494-200.png" 
+							id="taxiCompIcon" class="rounded float-start" alt="small taxi"></div>
+						<div type="text" class="form-control" aria-describedby="btnGroupAddon"><p>Small taxi</p><p class="blockquote-footer">estimated price: None</p></div>
+					</div>
+
+				</div>		
+
+			</div>
+		</div>	
+	</div>
+	<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+		<div class="offcanvas-header">
+		  <h5 class="offcanvas-title" id="offcanvasExampleLabel">Your account</h5>
+		  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+		  <div>
+			Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+		  </div>
+		  <div class="dropdown mt-3">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+			  Dropdown button
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			  <li><a class="dropdown-item" href="#">Action</a></li>
+			  <li><a class="dropdown-item" href="#">Another action</a></li>
+			  <li><a class="dropdown-item" href="#">Something else here</a></li>
+			</ul>
+		  </div>
+		</div>
+	  </div>
+	  <!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">We are sorry!</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+			 <p>This option isn't currently available</p>
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+		</div>
+	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 	 
