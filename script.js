@@ -133,7 +133,7 @@ function toFixedIfNecessary( value, dp ){
 
 function simpleReverseGeocoding() {
 
-	fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + userLongitude + '&lat=' + userLatitude).then(function(response) {
+	fetch('https://nominatim.openstreetmap.org/reverse?format=json&lon=' + userLongitude + '&lat=' + userLatitude).then(function(response) {
 	  return response.json();
 	}).then(function(json) {
 		if(json.error){
