@@ -38,15 +38,21 @@ option{
   color: red;
 }
 #routeData{
-  padding: 1em;
   
+  padding: 1em;
+  padding-top: 3em;  
   width: 100%;
   background-color: gainsboro;
 }
 
+h6{
+  margin-bottom: 0rem;
+}
+
 #options-header{
   
-  height: 3em;
+  padding-top: 1em;
+  padding-bottom: 1em;
   width: 100%;
   background-color: gainsboro;
   margin: 0;
