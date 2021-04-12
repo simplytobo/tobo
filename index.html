@@ -54,23 +54,23 @@
 		<button id="close-button" onclick="showLaunchScreen();" type="button" class="btn-close" aria-label="Close"></button>
 		<div id="routeData" >
 			<div class="d-flex flex-column mb-3">
-				<div class="p-2">
-					<label for="InputLocation2" class="form-label ">Current Location</label>
+				<div class="p-2">				
 					<input type="text" class="form-control" placeholder="Error"  id="InputLocation2">
 					<div id="CurLocationHelp" class="form-text">Your current location</div>
 				</div>
-				<div class="p-2">
-					<label for="inputDestination2" class="form-label" >Destination</label>
+				<div class="p-2">	
 					<input type="text" class="form-control"  id="inputDestination2" autocomplete="off" placeholder="Error" aria-describedby="destinationHelp2">
 					<div id="destinationHelp2" class="form-text">Your destination</div>
 				</div>
 			</div>
 			<div id="routeTimeDistance" class="row g-2 justify-content-evenly">
 				<div class="col-4 text-center align-middle">
-				  <div id="routeDistance" class="p-2 border bg-light ">Error</div>
+				  <div id="routeDistance" class="p-2 border bg-light" bg-light aria-describedby="routeDistanceHelp">Error</div>
+				  <div id="routeDistanceHelp" class="form-text">distance</div>
 				</div>
 				<div class="col-4 text-center align-middle">
-				  <div id="routeTime" class="p-2 border bg-light">Error</div>
+				  <div id="routeTime" class="p-2 border bg-light" aria-describedby="routeTimeHelp">Error</div>
+				  <div id="routeTimeHelp" class="form-text">time</div>
 				</div>
 			</div>				
 		</div>
