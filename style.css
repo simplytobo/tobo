@@ -6,9 +6,6 @@ html, body {
 .btn{
 	background-color: #605DF2;
 }
-input:focus + select, select:focus {
-  display: block;
-}
 select {
   display: flex;
   padding: 0.5em;
@@ -99,9 +96,19 @@ h6{
   padding: 1.5em;
   background: white;
   border-radius: 25px;
+  
 }
-select{
-	display: none;
+#AutocompleteDatalist{
+  position: absolute;
+  flex-direction: column;
+  z-index: 10;
+  background: #605DF2;
+  width: auto;
+  color: white;
+  display: none;
+  
+  
+  
 }
 .map {	
   height: 100%;
@@ -119,9 +126,7 @@ select{
   top: 1em;
 }
 
-#menu-button2{
- color: white;
-}
+
 #menu-icon{
   color:white;
 }
