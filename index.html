@@ -16,7 +16,7 @@
 		<div id="map" class="map"></div>
 		<div id="menu-button">
 			<button id="menu-button2" class="btn" type="button" data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample">
-				<i id="menu-icon" class="fas fa-bars"></i>
+				<span <i id="menu-icon" class="fas fa-bars" ></span>
 			</button>
 		</div>
 
@@ -26,9 +26,9 @@
 					<div class="mb-3">
 						<label for="inputDestination" class="form-label" >Destination</label>
 						<input type="text" class="form-control" for="AutocompleteDatalist" id="inputDestination" autocomplete="off" placeholder="Type to search..." aria-describedby="destinationHelp">
-							<select id="AutocompleteDatalist">
-								<option >Input atleast 3 letters</option>
-							</select>
+							<div class="form-control" id="AutocompleteDatalist">
+								
+							</div>
 						<div id="destinationHelp" class="form-text">Input your destination above</div>
 					</div>
 					<div class="mb-3">
@@ -38,7 +38,7 @@
 					</div>
 					<div class=" d-flex justify-content-center mb-2 ">
 			
-					<button type="submit" class="btn btn-primary btn-lg" onclick="showTaxiScreen();">Search</button>
+					<button id="searchBtn"type="submit" class="btn btn-primary btn-lg" onclick="showTaxiScreen();">Search</button>
 				  </div>
 				  
 				</div>				
@@ -94,6 +94,11 @@
 						<div class="input-group-text" id="btnGroupAddon"><img src="https://is4-ssl.mzstatic.com/image/thumb/Purple113/v4/d3/14/dd/d314dd9e-0f1b-c72d-9d72-044fa95f8b1b/source/200x200bb.jpg" 
 							id="taxiCompIcon" class="rounded float-start" alt="Uber"></div>
 						<div type="text" class="form-control" aria-describedby="btnGroupAddon"> <p>Uber</p><p id="uber" class="blockquote-footer">estimated price: 6€</p></div>
+					</div>
+          <div class="input-group">
+						<div class="input-group-text" id="btnGroupAddon"><img src="https://media-exp1.licdn.com/dms/image/C4D0BAQH2KZuyvpoR8g/company-logo_200_200/0/1592301099951?e=2159024400&v=beta&t=DNiIlsLpDVPZrTnbM_pGGCykly5raubI4EDciT6AFBg" 
+							id="taxiCompIcon" class="rounded float-start" alt="Bolt"></div>
+						<div type="text" class="form-control" aria-describedby="btnGroupAddon"><p>Bolt </p><p id="bolt" class="blockquote-footer">estimated price: 5€</p></div>
 					</div>
 					<div class="input-group">
 						<div class="input-group-text" id="btnGroupAddon"><img src="https://taxi.yandex.lv/social-icon.png" 
