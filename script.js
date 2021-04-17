@@ -1,8 +1,10 @@
 
 var lengthMemory = 0;
 var timeMemory = 0;
+var userClickedDropdown = false;  //bool
+var stopLoop = false; //bool
 //autocomplete dropbox input speed
-var autoCompleteSpeed = 3000;
+var autoCompleteSpeed = 2000;
 var launchScreen = document.getElementById("launch-screen");
 var taxiScreen = document.getElementById("taxi-screen");
 var CurLocation = document.getElementById('InputLocation');
@@ -12,92 +14,87 @@ var inputDestination = document.getElementById('inputDestination');
 var inputDestination2 = document.getElementById('inputDestination2')
 var routeDistance = document.getElementById('routeDistance')
 var routeTime = document.getElementById('routeTime')
+var searchBtn = document.getElementById('searchBtn')
 var addDestmark = false;
 getLocation();
 //taxis
 
 var boltBasic = document.getElementById('boltBasic');
+var bolt = document.getElementById('bolt');
 var uber = document.getElementById('uber');
 
+//inputDestination.addEventListener('input', AutoComplete);
+//AutocompleteDest.addEventListener('input', function() {inputDestination.value= this.value;});
+AutocompleteDest.addEventListener('click', changeBoolValue);
+
 inputDestination.addEventListener('input', AutoComplete);
-AutocompleteDest.addEventListener('change', function() {inputDestination.value= this.value;});
-AutocompleteDest.addEventListener('mouseover', function(e) {
-  console.log("works hovering")
-  AutocompleteDest.selectedIndex = e;
-  var configurationvalue = e.target.value;
+
+inputDestination.addEventListener('focus', function(){
+ 
+  if(AutocompleteDest.innerHTML.trim().length > 0 && lengthMemory != inputDestination.value.length){
+    AutocompleteDest.style.display = "flex";
+  }
+});
+
+// inputDestination.addEventListener('blur', function(){
+// AutocompleteDest.style.display = "none";
+// });
+
+
+function changeBoolValue(e){
   
+  AutocompleteDest.selectedIndex = e;
+  var configurationvalue = e.target.innerHTML;
+  lengthMemory = inputDestination.value.length;
+  AutocompleteDest.style.display = "none";
   inputDestination.value = configurationvalue;
+  userClickedDropdown = true;
+  //console.log(userClickedDropdown);
 
-});
+}
 
 
-inputDestination.addEventListener('keydown', function(e) {
-  if(e.key === "ArrowDown") {  //down arrow
-    AutocompleteDest.selectedIndex = Math.min(AutocompleteDest.selectedIndex+1, AutocompleteDest.options.length-1);
-    this.value= AutocompleteDest.value;
-  }
-  else if(e.key === "ArrowUp") { //up arrow
-    AutocompleteDest.selectedIndex = Math.max(AutocompleteDest.selectedIndex-1, 0);
-    this.value= AutocompleteDest.value;
-  }
-});
 function loadMap(){
     
+  locationMarker = new ol.Overlay({
+    element: document.getElementById('location'),
+    position: ol.proj.fromLonLat([userLongitude,userLatitude]),
+    positioning: 'bottom-center',
+    stopEvent: false
+  });
 
-locationMarker = new ol.Overlay({
-	element: document.getElementById('location'),
-	position: ol.proj.fromLonLat([userLongitude,userLatitude]),
-	positioning: 'bottom-center',
-	stopEvent: false
-});
-
-var view = new ol.View({
-    center: ol.proj.fromLonLat([userLongitude+0.001, userLatitude-0.003]),
-    zoom: 15
-  
-})
-	
-map = new ol.Map({
-  target: 'map',
-  controls: [],
-  layers: [
-    new ol.layer.Tile({
-      source: new ol.source.OSM()
-    })
-  ],
-  view: view
-});
-
-
-// var layer = new ol.layer.Vector({
-  // source: new ol.source.Vector({
-    // features: [
-        // new ol.Feature({
-            // geometry: new ol.geom.Point(ol.proj.fromLonLat([userLongitude,userLatitude]))
-
-        // })
-    // ]
-  // })
- // });
- //map.addLayer(layer);
-
-map.addOverlay(locationMarker);
+  var view = new ol.View({
+      center: ol.proj.fromLonLat([userLongitude+0.001, userLatitude-0.003]),
+      zoom: 15
+    
+  })
+    
+  map = new ol.Map({
+    target: 'map',
+    controls: [],
+    layers: [
+      new ol.layer.Tile({
+        source: new ol.source.OSM()
+      })
+    ],
+    view: view
+  });
 
 
- 
+  // var layer = new ol.layer.Vector({
+    // source: new ol.source.Vector({
+      // features: [
+          // new ol.Feature({
+              // geometry: new ol.geom.Point(ol.proj.fromLonLat([userLongitude,userLatitude]))
 
+          // })
+      // ]
+    // })
+  // });
+  //map.addLayer(layer);
 
+  map.addOverlay(locationMarker);
 
-
-
-//  map.on('click', function(e) {
-// 	var coordinate = ol.proj.toLonLat(e.coordinate).map(function(val) {
-// 	  return val.toFixed(6);
-// 	});
-// 	var lon = userLongitude;
-// 	var lat = userLatitude ;
-// 	simpleReverseGeocoding2(lon, lat);
-//   });
 
 }
 
@@ -177,24 +174,49 @@ function change(apiAddresses) {
     });
 
     if(match) {
-      s+= '<option>' +o;
+      s+= '<div>' +o+'</div>';
       //console.log(s);
     }
   });
 
   AutocompleteDest.innerHTML= s;
-  AutocompleteDest.size= AutocompleteDest.options.length;
+  //AutocompleteDest.size= AutocompleteDest.options.length;
+  if(AutocompleteDest.innerHTML != ""){
+    AutocompleteDest.style.display = "flex";
+  }
 }
+
+//call function Autocomplete after some time
+function callFunction(){
+    // do whatever you like here
+    AutoComplete();
+    if(userClickedDropdown == true){
+      userClickedDropdown = false;
+      lengthMemory = inputDestination.value.length;
+    };
+
+    setTimeout(callFunction, 3000);
+
+    
+
+}
+callFunction();
 
 
 function AutoComplete() {
-
+  
   var length = inputDestination.value.length;
   
   var curDate = new Date();
   var curTime = curDate.getTime();
 
-  if(curTime > timeMemory + autoCompleteSpeed && length != lengthMemory && length > 2){
+  // console.log(curTime > timeMemory + autoCompleteSpeed);
+  // console.log(length != lengthMemory);
+  //console.log("loop: "+stopLoop);
+  if(curTime > timeMemory + autoCompleteSpeed
+   && length != lengthMemory && length > 2 && userClickedDropdown == false){
+    
+    console.log("autocomplete executed");
     lengthMemory =length;
     timeMemory = curTime;
     //used to check for duplicates; only name!
@@ -269,12 +291,15 @@ function AutoComplete() {
     
   }
 }
+
 function showTaxiScreen(){
   taxiScreen.style.display = "flex";
   launchScreen.style.display = "none";
   CurLocation2.value = CurLocation.value;
   inputDestination2.value = inputDestination.value;
   direction();
+
+   
 }
 function showLaunchScreen(){
   taxiScreen.style.display = "none";
@@ -296,7 +321,7 @@ function direction(){
 
       match = true
     }
-    console.log("didnt match"); 
+    //console.log("didnt match"); 
   }
   fetch("https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf6248bafc4bdb37d4482c8604ac2d495e8cbc&start="+userLongitude +","+
    userLatitude+"&end="+DestinationLongitude+","+DestinationLatidude).then(function(response) {
@@ -305,9 +330,9 @@ function direction(){
       // if(json.error){
       //   console.log(json.error);
       // }
-      console.log(json);
-      console.log("Distance " +Math.round((json.features[0].properties.summary.distance)/ 100)/10);
-      console.log("Time: "+ Math.round((json.features[0].properties.summary.duration)/ 60));
+     // console.log(json);
+      //console.log("Distance " +Math.round((json.features[0].properties.summary.distance)/ 100)/10);
+      //console.log("Time: "+ Math.round((json.features[0].properties.summary.duration)/ 60));
 
       routeDistance.innerHTML = "";
       var routeInKm = Math.round((json.features[0].properties.summary.distance)/ 100)/10
@@ -323,7 +348,10 @@ function direction(){
       routeTime.appendChild(timeDiv);
 
       boltBasic.innerHTML = "estimated price: " + (1+calcFare(0.10,0.35,routeInKm, routeInMinute)) + "€";
+
       uber.innerHTML = "estimated price: " + (1.2+calcFare(0.11,0.40,routeInKm, routeInMinute)) + "€";
+
+      bolt.innerHTML = "estimated price: " + (1.2+calcFare(0.14,0.39,routeInKm, routeInMinute)) + "€";
 
       
 
@@ -333,7 +361,7 @@ function direction(){
   })
 }
 function calcFare(minuteFare, distanceFare, routeInKm,routeInMinute){
-  price = Math.round((minuteFare*routeInMinute*10))/10+ Math.round((distanceFare*routeInKm*10)/10);
+  price = Math.round((minuteFare*routeInMinute*10)/10 + (distanceFare*routeInKm*10)/10);
   return price;
 }
 
